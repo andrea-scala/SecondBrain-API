@@ -2,7 +2,11 @@
 SecondBrain is a backend service that allows uploading documents and querying them in natural language. The LLM responds based exclusively on the uploaded documents, citing the exact sources. It uses a RAG pipeline with ChromaDB as the vector database and Groq as the free LLM.
 
 ## Stack
-- ** ** -
+- **FastAPI** - Modern Python framework for API REST development
+- **LangChain** - Python lib that provides the tools to build the RAG pipeline and orchestrate the agent
+- **ChromaDB** - Vector database for storing and retrieving embeddings
+- **Groq** - Free LLM
+
 ## Architecture
 ```
 flowchart TD
@@ -40,3 +44,17 @@ flowchart TD
     style LLM fill:#fbf0ec,stroke:#e9cfc5,stroke-width:1px
 
 ```
+
+## How to use
+
+1. Install dependencies
+   pip install -r requirements.txt
+
+2. Start the service
+   uvicorn main:app
+
+3. Upload a document
+   POST /ingest  →  { "file": "document.pdf" }
+
+4. Ask a question
+   POST /ask  →  { "question": "What does the contract say about deadlines?" }
