@@ -52,10 +52,13 @@ flowchart TD
    pip install -r requirements.txt
 
 2. Start the service
-   uvicorn main:app
+   uvicorn app:app --reload
 
 3. Upload a document
    POST /ingest  →  { "file": "document.pdf" }
 
 4. Ask a question
-   POST /ask  →  { "question": "What does the contract say about deadlines?" }
+   POST /ask  →  { "prompt": "What does the contract say about deadlines?" }
+
+## Notes
+see [notes.md](notes.md)
