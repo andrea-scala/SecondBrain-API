@@ -5,48 +5,49 @@ SecondBrain is a backend service that allows uploading documents and querying th
 - **FastAPI** - Modern Python framework for API REST development
 - **LangChain** - Python lib that provides the tools to build the RAG pipeline and orchestrate the agent
 - **ChromaDB** - Vector database for storing and retrieving embeddings
-- **Groq** - Free LLM
+- **Groq** - Groq — Free LLM API (Llama 3)
 
 ## Architecture
-```
+```mermaid
 flowchart TD
-    %% Nodi Principali
-    Utente([Utente])
+    %% Main Nodes
+    Utente([User])
     
-    Ingest[FastAPI <br> endpoint /ingest]
-    Ask[FastAPI <br> endpoint /ask]
+    Ingest[FastAPI <br> /ingest endpoint]
+    Ask[FastAPI <br> /ask endpoint]
     
-    PipeIngest[Pipeline RAG <br> chunking + embedding]
-    PipeAsk[Pipeline RAG <br> retrieval per similarità]
+    PipeIngest[RAG Pipeline <br> chunking + embedding]
+    PipeAsk[RAG Pipeline <br> similarity retrieval]
     
     Chroma[(ChromaDB)]
     LLM[LLM <br> Groq]
 
-    %% Connessioni Flusso di Ingestione
-    Utente -->|carica documento| Ingest
+    %% Ingestion Flow Connections
+    Utente -->|upload document| Ingest
     Ingest --> PipeIngest
-    PipeIngest -->|salva vettori| Chroma
+    PipeIngest -->|save vectors| Chroma
 
-    %% Connessioni Flusso di Query
-    Utente -->|invia prompt| Ask
+    %% Query Flow Connections
+    Utente -->|send prompt| Ask
     Ask --> PipeAsk
-    PipeAsk -->|cerca vettori| Chroma
+    PipeAsk -->|search vectors| Chroma
     PipeAsk --> LLM
-    LLM -->|risposta| Utente
+    LLM -->|response| Utente
 
-    %% Stile e Colori (opzionale, per abbinare l'immagine)
-    style Utente fill:#f2ebe9,stroke:#bda7a1,stroke-width:1px
-    style Ingest fill:#eee7fd,stroke:#b299e6,stroke-width:2px
-    style Ask fill:#eee7fd,stroke:#b299e6,stroke-width:2px
-    style PipeIngest fill:#eaf7f2,stroke:#a3dfc7,stroke-width:2px
-    style PipeAsk fill:#eaf7f2,stroke:#a3dfc7,stroke-width:2px
-    style Chroma fill:#fcf1e3,stroke:#eecfa8,stroke-width:2px
-    style LLM fill:#fbf0ec,stroke:#e9cfc5,stroke-width:1px
-
+    %% Black & White Minimalist Style
+    style Utente fill:#ffffff,stroke:#000000,stroke-width:1px,color:#000000
+    style Ingest fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    style Ask fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    style PipeIngest fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    style PipeAsk fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    style Chroma fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    style LLM fill:#ffffff,stroke:#000000,stroke-width:1px,color:#000000
 ```
 
 ## How to use
-
+0. Create a .env file with your Groq API key
+   GROQ_API_KEY=your_key_here
+   
 1. Install dependencies
    pip install -r requirements.txt
 
