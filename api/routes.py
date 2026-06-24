@@ -2,7 +2,7 @@ from api.schemas import SBRequest, SBResponse, IngestResponse
 from fastapi import APIRouter, UploadFile, File
 from groq import Groq
 from core.config import GROQ_API_KEY
-
+from rag.pipeline import chunking
 router = APIRouter()
 client = Groq(api_key=GROQ_API_KEY)
 
@@ -21,5 +21,6 @@ def ask(request: SBRequest):
 async def ingest(file: UploadFile):
     contents = await file.read()
     contents = contents.decode(encoding="utf-8")
-    print(type(contents))
+    chunks = chunking(contents)
+    print(len(chunks))
     return IngestResponse(message=contents)
