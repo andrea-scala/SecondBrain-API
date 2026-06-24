@@ -1,5 +1,5 @@
-from api.schemas import SBRequest, SBResponse
-from fastapi import APIRouter
+from api.schemas import SBRequest, SBResponse, IngestResponse
+from fastapi import APIRouter, UploadFile, File
 from groq import Groq
 from core.config import GROQ_API_KEY
 
@@ -16,3 +16,10 @@ def ask(request: SBRequest):
     ], model="llama-3.3-70b-versatile")
     response = chat_completion.choices[0].message.content
     return SBResponse(response=response)
+
+@router.post("/ingest")
+async def ingest(file: UploadFile):
+    contents = await file.read()
+    contents = contents.decode(encoding="utf-8")
+    print(type(contents))
+    return IngestResponse(message=contents)
