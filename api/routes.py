@@ -2,7 +2,7 @@ from api.schemas import SBRequest, SBResponse, IngestResponse
 from fastapi import APIRouter, UploadFile, File
 from groq import Groq
 from core.config import GROQ_API_KEY
-from rag.pipeline import chunking
+from rag.pipeline import chunking, embedding, save_to_chromadb
 router = APIRouter()
 client = Groq(api_key=GROQ_API_KEY)
 
@@ -22,5 +22,6 @@ async def ingest(file: UploadFile):
     contents = await file.read()
     contents = contents.decode(encoding="utf-8")
     chunks = chunking(contents)
-    print(len(chunks))
-    return IngestResponse(message=contents)
+    embeddings = embedding(chunks)
+    save_to_chromadb(chunks, embeddings)
+    return IngestResponse(message=f"Ingested {len(chunks)} chunks")
