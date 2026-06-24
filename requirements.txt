@@ -4,3 +4,7 @@ pydantic
 python-dotenv
 groq
 python-multipart
+langchain
+langchain-text-splitters
+sentence-transformers
+chromadb
