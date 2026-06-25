@@ -32,3 +32,6 @@ We use Docker to containerize the application, allowing anyone to build the imag
 
 ### Why no .venv inside the container
 `.venv` is not needed inside the container because Docker itself provides an isolated Python environment with all dependencies installed via `pip install -r requirements.txt`. The container is already isolated — a virtual environment would be redundant.
+
+## TODO
+- `count_documents` returns the number of chunks, not the number of uploaded files. A future improvement would be to store file metadata during ingestion to enable accurate document counting.
