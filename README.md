@@ -1,3 +1,4 @@
+![Nome Alternativo dell'Immagine](assets/img.png)
 # SecondBrain-API
 SecondBrain is a backend service that allows uploading documents and querying them in natural language. The LLM responds based exclusively on the uploaded documents, citing the exact sources. It uses a RAG pipeline with ChromaDB as the vector database and Groq as the free LLM.
 
