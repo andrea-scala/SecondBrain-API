@@ -51,15 +51,16 @@ flowchart TD
 1. Install dependencies
    pip install -r requirements.txt
 
-2a. Start with uvicorn (development)
-    uvicorn app:app --reload
+2. Start the app
+   1. Start with uvicorn (development)
+      - `uvicorn app:app --reload`
 
-2b. Start with Docker (recommended)
-    docker build -t secondbrain-api .
-    docker run -p 8000:8000 --env-file .env secondbrain-api
+   2. Start with Docker (recommended)
+      - `docker build -t secondbrain-api .`
+      - `docker run -p 8000:8000 --env-file .env secondbrain-api`
 
 3. Upload a document
-   POST /ingest  →  { "file": "document.pdf" }
+   POST /ingest  →  { "file": "document.txt" }
 
 4. Ask a question
    POST /ask  →  { "prompt": "What does the contract say about deadlines?" }
