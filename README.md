@@ -6,7 +6,7 @@ SecondBrain is a backend service that allows uploading documents and querying th
 - **LangChain** - Python lib that provides the tools to build the RAG pipeline and orchestrate the agent
 - **ChromaDB** - Vector database for storing and retrieving embeddings
 - **Groq** - Groq — Free LLM API (Llama 3)
-
+- **sentence-transformers** - Python library for generating text embeddings locally, used for both document ingestion and query retrieval
 ## Architecture
 ```mermaid
 flowchart TD
@@ -51,8 +51,12 @@ flowchart TD
 1. Install dependencies
    pip install -r requirements.txt
 
-2. Start the service
-   uvicorn app:app --reload
+2a. Start with uvicorn (development)
+    uvicorn app:app --reload
+
+2b. Start with Docker (recommended)
+    docker build -t secondbrain-api .
+    docker run -p 8000:8000 --env-file .env secondbrain-api
 
 3. Upload a document
    POST /ingest  →  { "file": "document.pdf" }
