@@ -11,36 +11,40 @@ SecondBrain is a backend service that allows uploading documents and querying th
 ## Architecture
 ```mermaid
 flowchart TD
-    %% Main Nodes
     Utente([User])
     
-    Ingest[FastAPI <br> /ingest endpoint]
-    Ask[FastAPI <br> /ask endpoint]
+    Ingest[FastAPI /ingest endpoint]
+    Ask[FastAPI /ask endpoint]
     
-    PipeIngest[RAG Pipeline <br> chunking + embedding]
-    PipeAsk[RAG Pipeline <br> similarity retrieval]
+    PipeIngest[RAG Pipeline chunking + embedding]
+    Agent[AI Agent tool selection]
+    
+    SearchTool[Tool: search_documents similarity retrieval]
+    CountTool[Tool: count_documents count chunks]
     
     Chroma[(ChromaDB)]
-    LLM[LLM <br> Groq]
+    LLM[LLM Groq]
 
-    %% Ingestion Flow Connections
     Utente -->|upload document| Ingest
     Ingest --> PipeIngest
     PipeIngest -->|save vectors| Chroma
 
-    %% Query Flow Connections
     Utente -->|send prompt| Ask
-    Ask --> PipeAsk
-    PipeAsk -->|search vectors| Chroma
-    PipeAsk --> LLM
+    Ask --> Agent
+    Agent -->|needs document content| SearchTool
+    Agent -->|needs document count| CountTool
+    SearchTool -->|search vectors| Chroma
+    SearchTool --> LLM
+    CountTool --> LLM
     LLM -->|response| Utente
 
-    %% Black & White Minimalist Style
     style Utente fill:#ffffff,stroke:#000000,stroke-width:1px,color:#000000
     style Ingest fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
     style Ask fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
     style PipeIngest fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
-    style PipeAsk fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    style Agent fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    style SearchTool fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
+    style CountTool fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
     style Chroma fill:#ffffff,stroke:#000000,stroke-width:2px,color:#000000
     style LLM fill:#ffffff,stroke:#000000,stroke-width:1px,color:#000000
 ```
