@@ -35,3 +35,8 @@ We use Docker to containerize the application, allowing anyone to build the imag
 
 ## TODO
 - `count_documents` returns the number of chunks, not the number of uploaded files. A future improvement would be to store file metadata during ingestion to enable accurate document counting.
+
+## Phase 4 — Agent
+
+### Tool use and retry strategy
+To make the LLM more reliable when calling tools, we implemented a retry strategy with decreasing temperature. When Groq returns a `tool_use_failed` error (malformed tool call), the system retries with a lower temperature. Lower temperature makes the model more deterministic and precise — reducing the chance of generating invalid JSON in tool calls.
