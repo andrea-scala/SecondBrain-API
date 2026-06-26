@@ -33,10 +33,11 @@ We use Docker to containerize the application, allowing anyone to build the imag
 ### Why no .venv inside the container
 `.venv` is not needed inside the container because Docker itself provides an isolated Python environment with all dependencies installed via `pip install -r requirements.txt`. The container is already isolated — a virtual environment would be redundant.
 
-## TODO
-- `count_documents` returns the number of chunks, not the number of uploaded files. A future improvement would be to store file metadata during ingestion to enable accurate document counting.
 
 ## Phase 4 — Agent
 
 ### Tool use and retry strategy
 To make the LLM more reliable when calling tools, we implemented a retry strategy with decreasing temperature. When Groq returns a `tool_use_failed` error (malformed tool call), the system retries with a lower temperature. Lower temperature makes the model more deterministic and precise — reducing the chance of generating invalid JSON in tool calls.
+
+## TODO
+- `count_documents` returns the number of chunks, not the number of uploaded files. A future improvement would be to store file metadata during ingestion to enable accurate document counting.
